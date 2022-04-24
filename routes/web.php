@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Cache;
+use App\Models\Post;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +17,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $posts=Post::All_flies();
+    //dd($posts);
+    return view('posts',
+    [
+        'posts' => $posts
+    ]);
 });
+
+Route::get('/post/{post}', function ($slug) {
+
+    return view('post',[
+    'post'=>Post::find($slug)
+]);
+
+})->where('post','[A-Za-z0-9-]+');
