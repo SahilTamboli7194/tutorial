@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Post;
+use League\CommonMark\Extension\FrontMatter\Data\SymfonyYamlFrontMatterParser;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,18 +19,16 @@ use App\Models\Post;
 */
 
 Route::get('/', function () {
-    $posts=Post::All_flies();
-    //dd($posts);
     return view('posts',
     [
-        'posts' => $posts
+        'posts' => Post::All_flies()
     ]);
 });
 
 Route::get('/post/{post}', function ($slug) {
 
-    return view('post',[
-    'post'=>Post::find($slug)
-]);
+    $post = Post::find($slug);
+    
+    return view('post',['post' => $post]);
 
 })->where('post','[A-Za-z0-9-]+');

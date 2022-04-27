@@ -10,7 +10,12 @@
 <body>
     <?php foreach($posts as $post): ?>
         <article>
-            <?= $post;?>
+           <a href="post/<?= $post->slug;?>">
+           <h1>
+              <?= $post->title;?>
+           </h1>          
+        </a> 
+        <?= $post->excerpt;?>
         </article>  
     <?php endforeach?>
 </body>
