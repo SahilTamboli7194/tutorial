@@ -1,31 +1,27 @@
-@extends('layout')
-@section('page_title')
-Posts
-@endsection
-    
-@section('body')
-<?php foreach($posts as $post): ?>
-        <article>
-           <a href="/post/<?= $post->slug;?>">
-           <h1>
-              <?= $post->title;?>
-           </h1>          
-        </a> 
-        <p>
-            By 
-            <a href="/author/{{$post->user->username}}">
-                {{$post->user->name}}
-            </a>
+<x-layout>
+@include('_post-header');
+
+    <main class="max-w-6xl mx-auto mt-6 lg:mt-20 space-y-6">        
+         @if($posts->count())
+         <x-post-featured-card :post="$posts[0]"/>
+        @if($posts->count() > 1)
+         <div class="lg:grid lg:grid-cols-6">
+            @foreach($posts->skip(1) as $post)
             
-            in 
-            
-            <a href="/category/{{$post->category->slug}}">
-                <?= $post->category->name;?>
-            </a>
-        </p>
-        <?= $post->excerpt;?>
-        </article>  
-    <?php endforeach?>
-    <br><br>
-    <a href="/">Go Back</a>
-@endsection
+                 <x-post-card 
+                    :post="$post"
+                    class="{{$loop->iteration < 3 ? 'col-span-3' : 'col-span-2'}}"
+                  />
+              
+            @endforeach        
+         </div>
+         @endif
+
+        @else 
+            <p class="text-center">
+                No post yet .. Please check back later 
+            </p>
+        @endif
+    </main>
+  
+</x-layout>

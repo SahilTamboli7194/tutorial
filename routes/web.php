@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\User;
 use League\CommonMark\Extension\FrontMatter\Data\SymfonyYamlFrontMatterParser;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,37 +21,25 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 |
 */
 
-Route::get('/', function () {
-    // \Illuminate\Support\Facades\DB::listen(function ($query){
-    //     logger($query->sql,$query->bindings);
-    // });
-    return view('posts',
-    [
-        //'posts' => Post::all()
-        'posts' => Post::latest()->with('category')->get()
-    ]);
-});
+Route::get('/',[PostController::class,'index']);
 
-Route::get('/post/{post:slug}', function (Post $post) {
-  
-    //$post = Post::findorFail($id);
-    
-    return view('post',['post' => $post]);
-
-})->where('post','[A-Za-z0-9-]+');
+Route::get('/post/{post:slug}',[PostController::class,'show'])->where('post','[A-Za-z0-9-]+');
 
 Route::get('category/{category:slug}', function (Category $category){
-    //ddd($category);
+
     return view('posts',
     [
-        'posts' => $category->posts
+        'posts' => $category->posts,
+        'currentCategory'=>$category,
+        'categories'=>Category::all()
     ]);
 });
 
 Route::get('author/{author:username}', function (User $author){
-    //dd($author);
+
     return view('posts',
     [
-        'posts' => $author->posts
+        'posts' => $author->posts,
+        'categories'=>Category::all()
     ]);
 });
