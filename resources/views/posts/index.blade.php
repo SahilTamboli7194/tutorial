@@ -13,8 +13,10 @@
                     class="{{$loop->iteration < 3 ? 'col-span-3' : 'col-span-2'}}"
                   />
               
-            @endforeach        
+            @endforeach    
+         
          </div>
+         {{$posts->links()}}
          @endif
 
         @else 
