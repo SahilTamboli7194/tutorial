@@ -9,11 +9,13 @@ use App\Models\Category;
 class PostController extends Controller
 {
     public function index()
+
     {
+       // return Post::latest()->filter(request(['search','category','author']))->with('category','user')->paginate(3);
         // dd(request(['search','category']));
        return view('posts.index',
        [    
-           'posts' => Post::latest()->filter(request(['search','category','author']))->with('category','user')->get(),
+           'posts' => Post::latest()->filter(request(['search','category','author']))->with('category','user')->paginate(6),
            'categories'=>Category::all()           
        ]);
     }
