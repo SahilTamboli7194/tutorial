@@ -20,26 +20,12 @@ use App\Http\Controllers\PostController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//tetsing
+
+// Route::get('/',function(){
+//     return view('posts.index');
+// });
 
 Route::get('/',[PostController::class,'index']);
 
 Route::get('/post/{post:slug}',[PostController::class,'show'])->where('post','[A-Za-z0-9-]+');
-
-Route::get('category/{category:slug}', function (Category $category){
-
-    return view('posts',
-    [
-        'posts' => $category->posts,
-        'currentCategory'=>$category,
-        'categories'=>Category::all()
-    ]);
-});
-
-Route::get('author/{author:username}', function (User $author){
-
-    return view('posts',
-    [
-        'posts' => $author->posts,
-        'categories'=>Category::all()
-    ]);
-});
