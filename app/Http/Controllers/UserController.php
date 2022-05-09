@@ -16,12 +16,12 @@ class UserController extends Controller
             $attributes=request()->validate([
                 'name'=> 'required|min:3|max:50',
                 'username'=> 'required|min:3|unique:users,username',
-                'email'=> 'required|email|min:6|max:15|unique:users,email',
+                'email'=> 'required|email|min:6|max:50|unique:users,email',
                 'password'=> 'required|min:6|max:10'
             ]);
             $attributes['password']=bcrypt($attributes['password']);
-         User::create($attributes);
-            session()->flash('success','your account has been created');
-        return redirect('/');
+        $user=User::create($attributes);
+            auth()->login($user);
+        return redirect('/')->with('success','your account has been created');
     }
 }
