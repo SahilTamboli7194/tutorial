@@ -15,7 +15,7 @@ class PostController extends Controller
         // dd(request(['search','category']));
        return view('posts.index',
        [    
-           'posts' => Post::latest()->filter(request(['search','category','author']))->with('category','user')->paginate(6),
+           'posts' => Post::latest()->filter(request(['search','category','author']))->with('category','user')->simplePaginate(6)->withQueryString(),
            'categories'=>Category::all()           
        ]);
     }

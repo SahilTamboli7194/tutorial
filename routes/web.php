@@ -9,6 +9,7 @@ use App\Models\User;
 use League\CommonMark\Extension\FrontMatter\Data\SymfonyYamlFrontMatterParser;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,7 @@ use App\Http\Controllers\PostController;
 Route::get('/',[PostController::class,'index']);
 
 Route::get('/post/{post:slug}',[PostController::class,'show'])->where('post','[A-Za-z0-9-]+');
+
+Route::get('/register',[UserController::class,'create']);
+
+Route::post('/register',[UserController::class,'store']);
