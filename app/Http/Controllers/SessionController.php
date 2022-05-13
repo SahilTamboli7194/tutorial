@@ -21,7 +21,7 @@ class SessionController extends Controller
             'password'=>'required'
         ]);
         
-        if(!auth()->attempt($attribute))
+        if(auth()->attempt($attribute))
         {
             session()->regenerate();
             redirect('/')->with('success','welcome back');

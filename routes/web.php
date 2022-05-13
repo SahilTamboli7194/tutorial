@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NewsletterController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
@@ -13,7 +15,9 @@ use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UserController;
 use GuzzleHttp\Middleware;
 use Illuminate\Contracts\Session\Session;
-
+use PhpParser\Node\Stmt\TryCatch;
+use Illuminate\Validation\ValidationException;
+use App\Services\NewsLetter;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,17 +28,19 @@ use Illuminate\Contracts\Session\Session;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//tetsing
+Route::get('test',function(){
+    $msg="<img src='https://media.gettyimages.com/photos/india-captain-virat-kohli-during-the-post-match-presentations-after-picture-id1338718098?s=612x612' height='300' width='400'>";
 
-// Route::get('/',function(){
-//     return view('posts.index');
-// });
+    return $msg;
+});
 
 Route::get('/',[PostController::class,'index']);
 
 Route::get('/post/{post:slug}',[PostController::class,'show'])->where('post','[A-Za-z0-9-]+');
-
+Route::post('/post/{post:slug}/comment',[CommentController::class,'store']);
 Route::get('/register',[UserController::class,'create'])->middleware('guest');
+
+Route::post('/newsletter',NewsletterController::class);
 
 Route::post('/register',[UserController::class,'store'])->middleware('guest');
 

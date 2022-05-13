@@ -47,6 +47,42 @@
                         {{$post->body}}
                     </div>
                 </div>
+
+                <section class="col-span-8 col-start-5 mt-10 space-y-6">
+                    @auth
+                        <form action="/post/{{$post->slug}}/comment" method="POST" class="border border-gray-200 p-6 rounded-xl">
+                            @csrf
+                            <header class="flex items-center">
+                                <img src="https://i.pravatar.cc/60?u={{auth()->user()->id}}" alt="" height="60px" width="60px" class="rounded-xl">
+                                <h2 class="ml-4">
+                                    want to participate ?
+                                </h2>
+                            </header>
+                            <div class="mt-6">
+                                <textarea name="body" id="" cols="30" rows="6" class="w-full text-sm focus:outline-none focus:ring" placeholder="Quick, thing of something to say"></textarea>
+                            </div>
+                            <div>
+                                @error('body')
+                                    <p class="text-red-500 text-xs mt-2">{{$message}}</p>
+                                @enderror
+                            </div>
+                            <div class="flex justify-end mt-5 border-t border-gray-200 pt-6">
+                                <button type="submit" class="bg-blue-500 text-white uppercase font-semibold px-10 py-2 rounded-2xl hover:bg-blue-600">
+                                    Post
+                                </button>
+                            </div>
+                            
+                        </form>
+                    @else 
+                        <p class="text-semibold p-4">
+                            <a class="hover:underline" href="/register">Register </a> or <a class="hover:underline" href="/login">Login</a> to leave comment
+                        </p>                        
+                    @endauth
+                    @foreach ($post->comment as $comment)
+                       <x-post-comment :comment="$comment"/>
+                    @endforeach
+                   
+                </section>
             </article>
         </main>
 </x-layout>
