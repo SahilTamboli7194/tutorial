@@ -19,7 +19,7 @@ class UserController extends Controller
                 'email'=> 'required|email|min:6|max:50|unique:users,email',
                 'password'=> 'required|min:6|max:10'
             ]);
-            $attributes['password']=bcrypt($attributes['password']);
+            //$attributes['password']=bcrypt($attributes['password']);
         $user=User::create($attributes);
             auth()->login($user);
         return redirect('/')->with('success','your account has been created');
