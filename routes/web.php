@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsletterController;
 use App\Models\Category;
@@ -48,3 +49,15 @@ Route::get('/login',[SessionController::class,'create'])->middleware('guest');
 Route::post('/login',[SessionController::class,'store'])->middleware('guest');
 
 Route::post('/logout',[SessionController::class,'destroy'])->middleware('auth');
+
+//for admin section 
+
+Route::get('/admin/post/all',[AdminPostController::class,'index'])->middleware('admin');
+
+Route::get('/admin/post/create',[AdminPostController::class,'create'])->middleware('admin');
+Route::post('/admin/post',[AdminPostController::class,'store'])->middleware('admin');
+
+Route::get('/admin/post/{post:id}/edit',[AdminPostController::class,'edit'])->middleware('admin');
+Route::patch('/admin/post/{post:id}',[AdminPostController::class,'update'])->middleware('admin');
+
+Route::delete('/admin/post/{post:id}',[AdminPostController::class,'destroy'])->middleware('admin');

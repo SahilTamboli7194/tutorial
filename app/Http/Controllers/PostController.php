@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\Post;
 use App\Models\Category;
 
@@ -25,4 +26,5 @@ class PostController extends Controller
         return view('posts.show',['post' => $post]);
     }
 
+   
 }

@@ -18,13 +18,38 @@
             <div class="mt-8 md:mt-0 flex item-center text-sm">
 
                     @auth
-                    <span class="text-xs font-bold uppercase">welcome {{auth()->user()->username}} !</span>
-                    <form action="/logout" method="POST" class="text-xs font-semibold text-blue-500 ml-6">
-                        @csrf 
-                        <button type="submit">
-                            Log Out
-                        </button>
-                    </form>
+                    <x-dropdown>
+                        <x-slot name="trigger">
+                        <button 
+                     
+                             class="py-2 pl-3 pr-9 text-sm font-semibold w-full lg:w-52 text-left flex lg:inline-flex font-bold uppercase"> 
+                             
+                             welcome {{auth()->user()->username}} !
+                         </button>
+                        </x-slot>
+                            
+                            @can('admin')                               
+                           
+                             <a href="/admin/post/all" class="block text-left px-3 text-sm leading-6 hover:bg-blue-500 focus:bg-blue-500 hover:text-white focus:text-white {{request()->is('/admin/post/all')? 'bg-blue-500':''}}">
+                                All Post
+                             </a>
+                             <a href="/admin/post/create" class="block text-left px-3 text-sm leading-6 hover:bg-blue-500 focus:bg-blue-500 hover:text-white focus:text-white {{request()->is('/admin/post/create')? 'bg-blue-500':''}}">
+                                New Post
+                             </a>
+                             @endcan    
+                             <a href="#" class="block text-left px-3 text-sm leading-6 hover:bg-blue-500 focus:bg-blue-500 hover:text-white focus:text-white"
+                                x-data="{}" @click.prevent="document.querySelector('#logout-form').submit()"
+                             >
+                           
+                                logout
+                             </a>
+                             <form action="/logout" method="POST" class="hidden" id="logout-form"> 
+                                @csrf 
+                               
+                            </form>
+                    </x-dropdown>
+                    
+                    
                    @else
                    <a href="/register" class="text-xs font-bold uppercase">register</a>
                    |
@@ -76,4 +101,16 @@
             </div>
         </footer>
     </section>
+    @if(session()->has('success'))
+    <div x-data="{show:true}"
+         x-init="setTimeout(()=> show=false,7000)"
+         x-show="show"
+         class="fixed bg-blue-500 text-white px-4 py-2 rounded-xl bottom-10 right-3 text-sm" >
+       <p>
+          {{session('success')}}
+        </p>
+    </div>
+  
+    
+    @endif
 </body>
